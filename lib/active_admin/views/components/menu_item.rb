@@ -7,6 +7,8 @@ module ActiveAdmin
       attr_reader :label
       attr_reader :url
       attr_reader :priority
+      attr_reader :fa_icon
+      attr_reader :counter
 
       def build(item, options = {})
         super(options.merge(id: item.id))
@@ -17,6 +19,18 @@ module ActiveAdmin
 
         add_class "current" if item.current? assigns[:current_tab]
 
+        if item.fa_icon
+          @label = ('<i class="menu-icon ' + item.fa_icon + '"></i>' + '<span>' + @label + '</span>').html_safe
+        end
+
+        if item.counter
+          if item.items.any?
+            @label = @label + ('<span class="menu-item-notification">' + item.counter.to_s + '</span>').html_safe
+          else
+            @label = (@label + '<span class="menu-item-notification">' + item.counter.to_s + '</span>').html_safe
+          end
+        end
+
         if url
           text_node link_to label, url, item.html_options
         else
@@ -25,6 +39,13 @@ module ActiveAdmin
 
         if item.items.any?
           add_class "has_nested"
+          a href: "#" do |a|
+            a.add_class "panelMenuCollapse"
+            i do |i|
+              i.add_class "fa fa-angle-down"
+              ''
+            end
+          end
           @submenu = menu(item)
         end
       end

@@ -2,12 +2,10 @@ module ActiveAdmin
   module Views
     class TitleBar < Component
 
-      def build(title, action_items)
+      def build(title)
         super(id: "title_bar")
         @title = title
-        @action_items = action_items
         build_titlebar_left
-        build_titlebar_right
       end
 
       private
@@ -45,11 +43,6 @@ module ActiveAdmin
       def build_title_tag
         h2(@title, id: 'page_title')
       end
-
-      def build_action_items
-        insert_tag(view_factory.action_items, @action_items)
-      end
-
     end
   end
 end

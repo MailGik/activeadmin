@@ -2,7 +2,7 @@ module ActiveAdmin
   class MenuItem
     include Menu::MenuNode
 
-    attr_reader :html_options, :parent, :priority
+    attr_reader :html_options, :parent, :priority, :fa_icon, :counter
 
     # Builds a new menu item
     #
@@ -52,6 +52,8 @@ module ActiveAdmin
       @html_options   = options[:html_options] || {}
       @should_display = options[:if]           || proc { true }
       @parent         = options[:parent]
+      @fa_icon        = options[:fa_icon]
+      @counter        = options[:counter]
 
       yield(self) if block_given? # Builder style syntax
     end

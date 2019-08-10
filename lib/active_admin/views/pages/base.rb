@@ -50,23 +50,39 @@ module ActiveAdmin
 
         def build_page
           within body(class: body_classes) do
-            div id: "wrapper" do
-              build_unsupported_browser
-              header active_admin_namespace, current_menu
-              title_bar title, action_items_for_action
-              build_page_content
-              footer active_admin_namespace
+            div class: 'main-wrapper' + (request.cookies['admin_aside_menu'] ? " aside-menu-toggled" : "") do
+              div id: "wrapper" do
+                a href: "#" do |a|
+                  a.add_class "panelMask"
+                  ''
+                end
+                build_unsupported_browser
+                header active_admin_namespace, action_items_for_action
+                div id: 'aside-menu', class: 'aside_menu' do
+                  global_navigation current_menu, class: 'aside-menu-item tabs'
+                end
+                div do |w|
+                  w.add_class "wrapper_content"
+                  title_bar title
+                  build_page_content
+                  footer active_admin_namespace
+                end
+              end
             end
           end
         end
 
+        def build_aside_menu
+          insert_tag AsideMenu, active_admin_namespace, current_menu
+        end
+
         def body_classes
           Arbre::HTML::ClassList.new [
-            params[:action],
-            params[:controller].tr('/', '_'),
-            'active_admin', 'logged_in',
-            active_admin_namespace.name.to_s + '_namespace'
-          ]
+                                         params[:action],
+                                         params[:controller].tr('/', '_'),
+                                         'active_admin', 'logged_in',
+                                         active_admin_namespace.name.to_s + '_namespace'
+                                     ]
         end
 
         def build_unsupported_browser

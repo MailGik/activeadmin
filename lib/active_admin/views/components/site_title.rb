@@ -16,6 +16,22 @@ module ActiveAdmin
         else
           text_node site_title_content
         end
+
+        a href: '#' do |a|
+          a.add_class 'aside-menu-toggle'
+          i do |i|
+            i.add_class('fa fa-bars')
+            ''
+          end
+        end
+
+        a href: '#' do |a|
+          a.add_class 'aside-menu-toggle-mobile'
+          i do |i|
+            i.add_class('fa fa-bars')
+            ''
+          end
+        end
       end
 
       def site_title_link?
@@ -29,7 +45,7 @@ module ActiveAdmin
       private
 
       def site_title_with_link
-        helpers.link_to(site_title_content, @namespace.site_title_link)
+        helpers.link_to(site_title_content, @namespace.site_title_link, class: 'title-content')
       end
 
       def site_title_content
