@@ -63,7 +63,7 @@ module ActiveAdmin
 
       # Adds the default New link on index
       def add_default_new_action_item
-        add_action_item :new, only: :index do
+        add_action_item :new, only: [:index, :show] do
           if controller.action_methods.include?('new') && authorized?(ActiveAdmin::Auth::CREATE, active_admin_config.resource_class)
             localizer = ActiveAdmin::Localizers.resource(active_admin_config)
             link_to localizer.t(:new_model), new_resource_path
