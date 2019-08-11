@@ -17,7 +17,7 @@ module ActiveAdmin
         @priority = item.priority
         @submenu = nil
 
-        add_class "current" if item.current? assigns[:current_tab]
+        add_class "current is_active" if item.current? assigns[:current_tab]
 
         if item.fa_icon
           @label = ('<i class="menu-icon ' + item.fa_icon + '"></i>' + '<span>' + @label + '</span>').html_safe
@@ -25,10 +25,12 @@ module ActiveAdmin
 
         if item.counter
           counter_value = item.counter.is_a?(Proc) ? item.counter.call : item.counter
-          if item.items.any?
-            @label = @label + ('<span class="menu-item-notification">' + counter_value.to_s + '</span>').html_safe
-          else
-            @label = (@label + '<span class="menu-item-notification">' + counter_value.to_s + '</span>').html_safe
+          if counter_value > 0
+            if item.items.any?
+              @label = @label + ('<span class="menu-item-notification">' + counter_value.to_s + '</span>').html_safe
+            else
+              @label = (@label + '<span class="menu-item-notification">' + counter_value.to_s + '</span>').html_safe
+            end
           end
         end
 
