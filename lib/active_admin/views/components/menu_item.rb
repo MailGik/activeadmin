@@ -24,10 +24,11 @@ module ActiveAdmin
         end
 
         if item.counter
+          counter_value = item.counter.is_a?(Proc) ? item.counter.call : item.counter
           if item.items.any?
-            @label = @label + ('<span class="menu-item-notification">' + item.counter.to_s + '</span>').html_safe
+            @label = @label + ('<span class="menu-item-notification">' + counter_value.to_s + '</span>').html_safe
           else
-            @label = (@label + '<span class="menu-item-notification">' + item.counter.to_s + '</span>').html_safe
+            @label = (@label + '<span class="menu-item-notification">' + counter_value.to_s + '</span>').html_safe
           end
         end
 
